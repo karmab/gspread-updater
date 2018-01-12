@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import os
@@ -5,6 +7,8 @@ import sys
 
 
 def updatespreadsheet(doc, row, separator='+', credpath='.'):
+    if os.path.exists('/proc') and [l for l in open('/proc/self/cgroup').readlines() if 'docker' in l]:
+        credpath = "%s/.credentials" % os.path.expanduser('~')
     row = row.split(separator)
     scope = ['https://spreadsheets.google.com/feeds']
     creds = ServiceAccountCredentials.from_json_keyfile_name('%s/client_secret.json' % credpath, scope)
@@ -26,4 +30,5 @@ if __name__ == '__main__':
             print("You need to set the DOC env variable to the document name you want to update")
             sys.exit(1)
         row = ' '.join(sys.argv[1:])
+
         updatespreadsheet(doc, row)

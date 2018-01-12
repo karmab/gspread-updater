@@ -11,7 +11,7 @@
 to test on docker, use the following, separating the column content with *+*
 
 ```
-docker run --rm -it -v $HOME/.credentials/:/root/.credentials -e doc="$DOC" karmab/gspread-updater bla1+bla2+bla3
+docker run --rm -it -v ~/gspread:/root/.credentials -e DOC="$DOC" karmab/gspread-updater bla1+bla2+bla4
 ```
 
 ## using the frontend
@@ -23,7 +23,7 @@ an environment variable PASSWORD can be set on the server and then needed on cli
 launch the server using docker:
 
 ```
-docker run --rm -it -v $HOME/.credentials/:/root/.credentials -e doc="$DOC" -e password=$PASSWORD karmab/gspread-updater-fe
+docker run --rm -it -p 9000:9000 -v ~/gspread:/root/.credentials -e DOC="$DOC" -e PASSWORD=$PASSWORD karmab/gspread-updater-fe
 ```
 
 on openshift 

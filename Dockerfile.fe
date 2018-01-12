@@ -5,7 +5,7 @@ RUN yum -y install git epel-release && yum -y install python-pip && yum clean al
 RUN pip install flask gspread oauth2client
 
 ADD fe.py /tmp
-ADD update.py /usr/bin
-RUN chmod o+x /usr/bin/update.py
+ADD update.py /tmp
 
 ENTRYPOINT  ["python", "/tmp/fe.py"]
+EXPOSE 9000
