@@ -1,16 +1,32 @@
 
-# this updates a google spreadsheet with provided line
+# this updates a given google spreadsheet adding the provided line at the end of the last sheet
+
+## requisites
+
+- DOC env variable pointing to the document name to update
+- PASSWORD env variable is defined on server side (only for frontend)
 
 ## how to use
 
 to test on docker, use the following, separating the column content with *+*
 
 ```
-docker run --rm -it -v /Users/kboumedh/.credentials/:/root/.credentials -e doc="my secret document" karmab/gspread-updater bla1+bla2+bla3
+docker run --rm -it -v $HOME/.credentials/:/root/.credentials -e doc="$DOC" karmab/gspread-updater bla1+bla2+bla3
 ```
 
-using the frontend
+## using the frontend
 
+alternatively, one can set the frontend and have people sending curl with the content
+an environment variable PASSWORD can be set on the server and then needed on client side for updates to occur
+
+
+launch the server using docker:
+
+```
+docker run --rm -it -v $HOME/.credentials/:/root/.credentials -e doc="$DOC" -e password=$PASSWORD karmab/gspread-updater-fe
+```
+
+client side 
 ```
 curl -H "Content-Type: application/json" -X POST -d '{"row":"bla1+bla2+bla3","password":"secret"}' http://127.0.0.1:9000
 ```
