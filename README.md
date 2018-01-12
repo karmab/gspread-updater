@@ -26,6 +26,13 @@ launch the server using docker:
 docker run --rm -it -v $HOME/.credentials/:/root/.credentials -e doc="$DOC" -e password=$PASSWORD karmab/gspread-updater-fe
 ```
 
+on openshift 
+
+```
+oc create secret generic gspread-secret --from-file=client_secret.json
+oc create -f gspread-updater-fe.yml
+```
+
 client side 
 ```
 curl -H "Content-Type: application/json" -X POST -d '{"row":"bla1+bla2+bla3","password":"secret"}' http://127.0.0.1:9000

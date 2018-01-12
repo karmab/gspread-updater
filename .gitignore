@@ -1,2 +1,4 @@
 client_secret.json
 gspread
+gspread-updater-fe.yml
+*pyc

@@ -4,10 +4,10 @@ import os
 import sys
 
 
-def updatespreadsheet(doc, row, separator='+'):
+def updatespreadsheet(doc, row, separator='+', credpath='.'):
     row = row.split(separator)
     scope = ['https://spreadsheets.google.com/feeds']
-    creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_name('%s/client_secret.json' % credpath, scope)
     client = gspread.authorize(creds)
     doc = client.open(doc)
     sheet = doc.worksheets()[-1]

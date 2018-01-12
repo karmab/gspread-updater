@@ -1,0 +1,112 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: gspread-updater-fe
+    name: gspread-updater-fe
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: karmab/gspread-updater-fe
+      from:
+        kind: DockerImage
+        name: karmab/gspread-updater-fe
+      generation: null
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: ""
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: gspread-updater-fe
+    name: gspread-updater-fe
+  spec:
+    replicas: 1
+    selector:
+      app: gspread-updater-fe
+      deploymentconfig: gspread-updater-fe
+    strategy:
+      resources: {}
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: gspread-updater-fe
+          deploymentconfig: gspread-updater-fe
+      spec:
+        containers:
+        - image: karmab/gspread-updater-fe
+          name: gspread-updater-fe
+          ports:
+          - containerPort: 7000
+            protocol: TCP
+          resources: {}
+          volumeMounts:
+           - name: gspread-secret
+             mountPath: "/tmp/.credentials"
+             readOnly: false
+          env:
+           - name: DOC
+             value: "YOUR_SUPER_DOC"
+           - name: PASSWORD
+             value: "YOUR_BIG_SECRET"
+        volumes:
+        - name: gspread-secret
+          secret:
+            secretName: gspread-secret
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - gspread-updater-fe
+        from:
+          kind: ImageStreamTag
+          name: gspread-updater-fe:latest
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: gspread-updater-fe
+    name: gspread-updater-fe
+  spec:
+    ports:
+    - name: 9000-tcp
+      port: 9000
+      protocol: TCP
+      targetPort: 9000
+    selector:
+      app: gspread-updater-fe
+      deploymentconfig: gspread-updater-fe
+  status:
+    loadBalancer: {}
+kind: List
+metadata: {}

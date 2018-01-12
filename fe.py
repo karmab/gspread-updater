@@ -21,7 +21,7 @@ def index():
         code = 403
     else:
         print("Updating spreadsheet...")
-        updatespreadsheet(doc, row)
+        updatespreadsheet(doc, row, credpath=credpath)
         result = {'result': 'success'}
         code = 200
     response = jsonify(result)
@@ -30,6 +30,11 @@ def index():
 
 if __name__ == '__main__':
     global password
+    global credpath
+    if 'KUBERNETES_PORT' in os.environ:
+        credpath = '/tmp/.credentials'
+    else:
+        credpath = '.'
     if 'DOC' not in os.environ:
         print("You need to set the DOC env variable to the document name you want to update")
         sys.exit(1)
