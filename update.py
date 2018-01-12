@@ -4,10 +4,8 @@ import os
 import sys
 
 
-def updatespreadsheet(row, separator='+'):
+def updatespreadsheet(doc, row, separator='+'):
     row = row.split(separator)
-    DOC = "OpenShift Solutions Engineering Weekly Status"
-    doc = os.environ.get('DOC', DOC)
     scope = ['https://spreadsheets.google.com/feeds']
     creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
     client = gspread.authorize(creds)
@@ -23,5 +21,9 @@ if __name__ == '__main__':
         print("No information provided. Leaving")
         sys.exit(1)
     else:
+        doc = os.environ.get('DOC')
+        if doc is None:
+            print("You need to set the DOC env variable to the document name you want to update")
+            sys.exit(1)
         row = ' '.join(sys.argv[1:])
-        updatespreadsheet(row)
+        updatespreadsheet(doc, row)
