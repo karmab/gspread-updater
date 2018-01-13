@@ -58,18 +58,21 @@ items:
             protocol: TCP
           resources: {}
           volumeMounts:
-           - name: gspread-secret
-             mountPath: "/tmp/.credentials"
+           - name: gspread-credentials
+             mountPath: "/.credentials"
              readOnly: false
           env:
            - name: DOC
-             value: "YOUR_SUPER_DOC"
+             value: "Your Super Doc Name"
            - name: PASSWORD
-             value: "YOUR_BIG_SECRET"
+             valueFrom:
+               secretKeyRef:
+                 name: gspread-password
+                 key: password
         volumes:
-        - name: gspread-secret
+        - name: gspread-credentials
           secret:
-            secretName: gspread-secret
+            secretName: gspread-credentials
     test: false
     triggers:
     - type: ConfigChange

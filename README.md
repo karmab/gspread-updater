@@ -26,10 +26,14 @@ launch the server using docker:
 docker run --rm -it -p 9000:9000 -v ~/gspread:/root/.credentials -e DOC="$DOC" -e PASSWORD=$PASSWORD karmab/gspread-updater-fe
 ```
 
-on openshift 
+on openshift, we use two secrets:
+
+- gspread-credentials to hold google credentials
+- gspread-secret to specify a password (this is optional)
 
 ```
-oc create secret generic gspread-secret --from-file=client_secret.json
+oc create secret generic gspread-credentials --from-file=client_secret.json
+oc create secret generic gspread-password --from-literal=password=$PASSWORD
 oc create -f gspread-updater-fe.yml
 ```
 
