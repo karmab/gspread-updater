@@ -32,9 +32,11 @@ on openshift, we use two secrets:
 - gspread-secret to specify a password (this is optional)
 
 ```
+oc new-project gspread
 oc create secret generic gspread-credentials --from-file=client_secret.json
 oc create secret generic gspread-password --from-literal=password=$PASSWORD
 oc create -f gspread-updater-fe.yml
+oc expose svc gspread-updater-fe
 ```
 
 client side 
