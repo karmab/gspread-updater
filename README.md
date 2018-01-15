@@ -44,13 +44,13 @@ client side
 either send it as a form 
 
 ```
-curl -X POST -d password=secret -d row=bla1+bla2+bla3 127.0.0.1:9000
+curl -d password=secret -d row=bla1+bla2+bla3 127.0.0.1:9000
 ```
 
 or using json:
 
 ```
-curl -H "Content-Type: application/json" -X POST -d '{"row":"bla1+bla2+bla3","password":"secret"}' 127.0.0.1:9000
+curl -H "Content-Type: application/json" -d '{"row":"bla1+bla2+bla3","password":"secret"}' 127.0.0.1:9000
 ```
 
 ## Todo
