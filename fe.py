@@ -13,17 +13,27 @@ def index():
     """
     adds line
     """
-    content = request.get_json(silent=True)
+    if request.is_json:
+        content = request.get_json(silent=True)
+    else:
+        content = request.form
     row = content.get('row')
     upassword = content.get('password')
     if password is not None and upassword != password:
         result = {'result': 'failure', 'reason': 'not authorized'}
         code = 403
+    elif row is None:
+        result = {'result': 'failure', 'reason': 'missing row information'}
+        code = 422
     else:
         print("Updating spreadsheet...")
-        updatespreadsheet(doc, row, credpath=credpath)
-        result = {'result': 'success'}
-        code = 200
+        res = updatespreadsheet(doc, row, credpath=credpath)
+        if res == 0:
+            result = {'result': 'success'}
+            code = 200
+        else:
+            result = {'result': 'failure', 'reason': 'issue processing this sheet'}
+            code = 422
     response = jsonify(result)
     response.status_code = code
     return response

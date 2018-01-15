@@ -40,16 +40,22 @@ oc expose svc gspread-updater-fe
 ```
 
 client side 
+
+either send it as a form 
+
 ```
-curl -H "Content-Type: application/json" -X POST -d '{"row":"bla1+bla2+bla3","password":"secret"}' http://127.0.0.1:9000
+curl -X POST -d password=secret -d row=bla1+bla2+bla3 127.0.0.1:9000
+```
+
+or using json:
+
+```
+curl -H "Content-Type: application/json" -X POST -d '{"row":"bla1+bla2+bla3","password":"secret"}' 127.0.0.1:9000
 ```
 
 ## Todo
 
-- send data this way ?
-```
-curl -X POST -d 'password=secret&row=bla1+bla2+bla3' 127.0.0.1:9000/
-```
+- handle better inserting in a blank spreadsheet (as we currently skip the first line)
 
 ## Copyright
 
