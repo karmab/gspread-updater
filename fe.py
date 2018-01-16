@@ -27,7 +27,7 @@ def index():
         code = 422
     else:
         print("Updating spreadsheet...")
-        res = updatespreadsheet(doc, row, credpath=credpath)
+        res = updatespreadsheet(doc, row, credpath=credpath, headers=headers, weekmode=weekmode)
         if res == 0:
             result = {'result': 'success'}
             code = 200
@@ -40,6 +40,7 @@ def index():
 
 if __name__ == '__main__':
     global password
+    global weekmode
     global credpath
     if 'KUBERNETES_PORT' in os.environ:
         credpath = '/tmp/.credentials'
@@ -50,8 +51,8 @@ if __name__ == '__main__':
         sys.exit(1)
     else:
         doc = os.environ['DOC']
-    if 'PASSWORD' in os.environ:
-        password = os.environ['PASSWORD']
-    else:
-        password = None
+    password = os.environ['PASSWORD'] if 'PASSWORD' in os.environ else None
+    weekmode = os.environ['WEEKMODE'] if 'WEEKMODE' in os.environ else False
+    weekmode = True if 'true' in weekmode.lower() else False
+    headers = os.environ['HEADERS'] if 'HEADERS' in os.environ else None
     app.run(host="0.0.0.0", port=9000)
